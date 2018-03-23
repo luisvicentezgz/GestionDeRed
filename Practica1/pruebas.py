@@ -2,14 +2,22 @@
 from snmp_library import *
 from pysnmp.hlapi.asyncore import *
 import time
+from scapy.all import *
+# Imports
+from snmp_library import *
+from pysnmp.hlapi.asyncore import *
+
+import os
 import sys
-import numpy as np
-import matplotlib.pyplot as plt
+
+####################graficas
+#import numpy as np
+#import matplotlib.pyplot as plt
 
 # Variables in my program
 version = 'v1'#v2c
-community = 'public'
-ip_addr = '155.210.157.3'#155.210.157.3 es un hub, .4 el switch
+community = 'security'
+ip_addr = '155.210.157.204'#155.210.157.3 es un hub, .4 el switch
 port = 161
 
 # SNMP engine inicialization
@@ -19,48 +27,19 @@ snmp_engine = snmp_requests(version, community, ip_addr, port)
 #######################################################################
 #                            SNMP pp                                  #
 #######################################################################
-# Imports
-from snmp_library import *
-from pysnmp.hlapi.asyncore import *
-import time
-
-import numpy as np
-import matplotlib.pyplot as plt
 
 
-# Variables in my program
-version = 'v1'#v2c
-community = 'private'
-ip_addr = '155.210.157.3'#155.210.157.3 es un hub, .4 el switch
-port = 161
+varBinds = [ObjectType(ObjectIdentity('1.3.6.1.4.1.43.10.10.2.1.7.2'), Integer(4))]
+response = snmp_engine.snmpset(varBinds)
+print response.varBinds[0][1]
+print response.varBinds[0][0]
+#varBinds = [ObjectType(ObjectIdentity('1.3.6.1.4.1.43.10.10.2.1.2.2'), OctetString('155.210.157.204'))]  #ssh de vagrant
+#response = snmp_engine.snmpset(varBinds)
+#varBinds = [ObjectType(ObjectIdentity('1.3.6.1.4.1.43.10.10.2.1.3.2'), Integer(2))]  #ssh de vagrant
+#response = snmp_engine.snmpset(varBinds)
+#varBinds = [ObjectType(ObjectIdentity('1.3.6.1.4.1.43.10.10.2.1.4.2'), OctetString('public'))]  # ssh de vagrant
+#response = snmp_engine.snmpset(varBinds)
 
-# SNMP engine inicialization
-snmp_engine = snmp_requests(version, community, ip_addr, port)
-
-varBinds1 = [ObjectType(ObjectIdentity('1.3.6.1.2.1.2.2.1.10.39534'))]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#print response1.errorIndication
-#print response1.errorStatus
+#tras cacti:
+##
+##monitorizar tabla channel
